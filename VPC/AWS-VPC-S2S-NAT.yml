@@ -1,0 +1,297 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: ''
+Parameters:
+  CidrBlockVPC:
+    Description: example 10.0.0.0/16
+    Type: String
+    Default: 172.25.180.0/19
+    MinLength: '10'
+    MaxLength: '18'
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+  EC2Subnet1Cidr:
+    Description: example 10.0.0.0/16
+    Default: 172.25.180.0/26
+    Type: String
+    MinLength: '10'
+    MaxLength: '18'
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+  EC2Subnet2Cidr:
+    Description: example 10.0.0.0/16
+    Default: 172.25.180.64/26
+    Type: String
+    MinLength: '10'
+    MaxLength: '18'
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+  EC2Subnet3Cidr:
+    Description: example 10.0.0.0/16
+    Default: 172.25.180.128/26
+    Type: String
+    MinLength: '10'
+    MaxLength: '18'
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+  EC2Subnet4Cidr:
+    Description: example 10.0.0.0/16
+    Default: 172.25.180.192/26
+    Type: String
+    MinLength: '10'
+    MaxLength: '18'
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+  EC2Subnet5Cidr:
+    Description: example 10.0.0.0/16
+    Default: 172.25.181.0/26
+    Type: String
+    MinLength: '10'
+    MaxLength: '18'
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+  EC2Subnet6Cidr:
+    Description: example 10.0.0.0/16
+    Default: 172.25.181.64/26
+    Type: String
+    MinLength: '10'
+    MaxLength: '18'
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+  EC2Subnet7Cidr:
+    Description: example 10.0.0.0/16
+    Default: 172.25.181.128/26
+    Type: String
+    MinLength: '10'
+    MaxLength: '18'
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+  EC2Subnet8Cidr:
+    Description: example 10.0.0.0/16
+    Default: 172.25.181.192/26
+    Type: String
+    MinLength: '10'
+    MaxLength: '18'
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+  EC2Subnet9Cidr:
+    Description: example 10.0.0.0/16
+    Default: 172.25.182.0/26
+    Type: String
+    MinLength: '10'
+    MaxLength: '18'
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+  FirewallPublicIP:
+    Description: Public IP of the Firewall
+    Type: String
+Resources:
+  EC2EIP:
+    Type: 'AWS::EC2::EIP'
+    Properties:
+      Domain: vpc
+  EC2VPC:
+    Type: 'AWS::EC2::VPC'
+    Properties:
+      CidrBlock: !Ref CidrBlockVPC
+      EnableDnsSupport: true
+      EnableDnsHostnames: false
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: Account_Name-VPC
+  EC2Subnet:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      AvailabilityZone: !Sub '${AWS::Region}a'
+      CidrBlock: !Ref EC2Subnet1Cidr
+      VpcId: !Ref EC2VPC
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: Middle-Tier-Subnet-a
+  EC2Subnet2:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      AvailabilityZone: !Sub '${AWS::Region}b'
+      CidrBlock: !Ref EC2Subnet2Cidr
+      VpcId: !Ref EC2VPC
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: Middle-Tier-Subnet-b
+  EC2Subnet3:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      AvailabilityZone: !Sub '${AWS::Region}c'
+      CidrBlock: !Ref EC2Subnet3Cidr
+      VpcId: !Ref EC2VPC
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: Middle-Tier-Subnet-c
+  EC2Subnet4:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      AvailabilityZone: !Sub '${AWS::Region}a'
+      CidrBlock: !Ref EC2Subnet4Cidr
+      VpcId: !Ref EC2VPC
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: DB-Subnet-a
+  EC2Subnet5:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      AvailabilityZone: !Sub '${AWS::Region}b'
+      CidrBlock: !Ref EC2Subnet5Cidr
+      VpcId: !Ref EC2VPC
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: DB-Subnet-b
+  EC2Subnet6:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      AvailabilityZone: !Sub '${AWS::Region}c'
+      CidrBlock: !Ref EC2Subnet6Cidr
+      VpcId: !Ref EC2VPC
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: DB-Subnet-c
+  EC2Subnet7:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      AvailabilityZone: !Sub '${AWS::Region}a'
+      CidrBlock: !Ref EC2Subnet7Cidr
+      VpcId: !Ref EC2VPC
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: ExternalSubnet-a
+  EC2Subnet8:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      AvailabilityZone: !Sub '${AWS::Region}b'
+      CidrBlock: !Ref EC2Subnet8Cidr
+      VpcId: !Ref EC2VPC
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: ExternalSubnet-b
+  EC2Subnet9:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      AvailabilityZone: !Sub '${AWS::Region}c'
+      CidrBlock: !Ref EC2Subnet9Cidr
+      VpcId: !Ref EC2VPC
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: ExternalSubnet-c
+  EC2RouteTable:
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId: !Ref EC2VPC
+      Tags:
+        - Key: Name
+          Value: NATRouter
+  EC2RouteTable2:
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId: !Ref EC2VPC
+      Tags:
+        - Key: Name
+          Value: Primary_Route
+  EC2SecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: SSH and Ping from the DC
+      GroupName: SSH-N-Ping-DC
+      VpcId: !Ref EC2VPC
+      SecurityGroupIngress:
+        - CidrIp: 10.0.0.0/8
+          Description: ''
+          FromPort: 22
+          IpProtocol: tcp
+          ToPort: 22
+        - CidrIp: 10.0.0.0/8
+          FromPort: -1
+          IpProtocol: icmp
+          ToPort: -1
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: '-1'
+  EC2VPCGatewayAttachment:
+    Type: 'AWS::EC2::VPCGatewayAttachment'
+    Properties:
+      VpnGatewayId: !Ref EC2VPNGateway
+      VpcId: !Ref EC2VPC
+  EC2VPCGatewayAttachment2:
+    Type: 'AWS::EC2::VPCGatewayAttachment'
+    Properties:
+      InternetGatewayId: !Ref EC2InternetGateway
+      VpcId: !Ref EC2VPC
+  EC2NatGateway:
+    Type: 'AWS::EC2::NatGateway'
+    Properties:
+      SubnetId: !Ref EC2Subnet8
+      Tags:
+        - Key: Name
+          Value: EC2NatGateway
+      AllocationId: !GetAtt EC2EIP.AllocationId
+  EC2SubnetRouteTableAssociation:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      RouteTableId: !Ref EC2RouteTable
+      SubnetId: !Ref EC2Subnet7
+  EC2SubnetRouteTableAssociation2:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      RouteTableId: !Ref EC2RouteTable
+      SubnetId: !Ref EC2Subnet8
+  EC2SubnetRouteTableAssociation3:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      RouteTableId: !Ref EC2RouteTable
+      SubnetId: !Ref EC2Subnet9
+  EC2InternetGateway:
+    Type: 'AWS::EC2::InternetGateway'
+    Properties:
+      Tags:
+        - Key: Name
+          Value: VPC_NAME_InternetGateway
+  EC2Route:
+    Type: 'AWS::EC2::Route'
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref EC2InternetGateway
+      RouteTableId: !Ref EC2RouteTable
+  EC2CustomerGateway:
+    Type: 'AWS::EC2::CustomerGateway'
+    Properties:
+      BgpAsn: 65000
+      IpAddress: !Ref FirewallPublicIP
+      Type: ipsec.1
+      Tags:
+        - Key: Name
+          Value: DataCenter_Name_Firewall_Name
+  EC2VPNConnection:
+    Type: 'AWS::EC2::VPNConnection'
+    Properties:
+      Type: ipsec.1
+      StaticRoutesOnly: true
+      CustomerGatewayId: !Ref EC2CustomerGateway
+      VpnGatewayId: !Ref EC2VPNGateway
+      Tags:
+        - Key: Name
+          Value: S2SToDc
+  EC2VPNGateway:
+    Type: 'AWS::EC2::VPNGateway'
+    Properties:
+      AmazonSideAsn: 7224
+      Type: ipsec.1
+      Tags:
+        - Key: Name
+          Value: !Sub '${EC2VPC} | TestVPC'
+  EC2VPNConnectionRoute:
+    Type: 'AWS::EC2::VPNConnectionRoute'
+    Properties:
+      VpnConnectionId: !Ref EC2VPNConnection
+      DestinationCidrBlock: 10.0.0.0/8
+  EC2Route3:
+    Type: 'AWS::EC2::Route'
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref EC2NatGateway
+      RouteTableId: !Ref EC2RouteTable2
