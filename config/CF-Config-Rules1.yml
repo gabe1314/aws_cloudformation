@@ -1,0 +1,228 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: ""
+Resources:
+    ConfigConfigRule:
+        Type: "AWS::Config::ConfigRule"
+        Properties:
+            ConfigRuleName: "cloudtrail-enabled"
+            Description: "Checks whether AWS CloudTrail is enabled in your AWS account. Optionally, you can specify which S3 bucket, SNS topic, and Amazon CloudWatch Logs ARN to use."
+            Scope: {}
+            Source: 
+                Owner: "AWS"
+                SourceIdentifier: "CLOUD_TRAIL_ENABLED"
+            InputParameters: "{}"
+            MaximumExecutionFrequency: "TwentyFour_Hours"
+
+    ConfigConfigRule2:
+        Type: "AWS::Config::ConfigRule"
+        Properties:
+            ConfigRuleName: "ec2-volume-inuse-check"
+            Description: "Checks whether EBS volumes are attached to EC2 instances. Optionally checks if EBS volumes are marked for deletion when an instance is terminated."
+            Scope: 
+                ComplianceResourceTypes: 
+                  - "AWS::EC2::Volume"
+            Source: 
+                Owner: "AWS"
+                SourceIdentifier: "EC2_VOLUME_INUSE_CHECK"
+            InputParameters: "{}"
+
+    ConfigConfigRule3:
+        Type: "AWS::Config::ConfigRule"
+        Properties:
+            ConfigRuleName: "iam-password-policy"
+            Description: "Checks whether the account password policy for IAM users meets the specified requirements."
+            Scope: {}
+            Source: 
+                Owner: "AWS"
+                SourceIdentifier: "IAM_PASSWORD_POLICY"
+            InputParameters: "{\\"RequireUppercaseCharacters\\":\\"true\\",\\"RequireLowercaseCharacters\\":\\"true\\",\\"RequireSymbols\\":\\"true\\",\\"RequireNumbers\\":\\"true\\",\\"MinimumPasswordLength\\":\\"8\\",\\"PasswordReusePrevention\\":\\"24\\",\\"MaxPasswordAge\\":\\"90\\"}"
+            MaximumExecutionFrequency: "One_Hour"
+
+    ConfigConfigRule4:
+        Type: "AWS::Config::ConfigRule"
+        Properties:
+            ConfigRuleName: "required-application-tags"
+            Description: "Checks whether your resources have the tags that you specify."
+            Scope: 
+                ComplianceResourceTypes: 
+                  - "AWS::ACM::Certificate"
+                  - "AWS::AutoScaling::AutoScalingGroup"
+                  - "AWS::CodeBuild::Project"
+                  - "AWS::DynamoDB::Table"
+                  - "AWS::EC2::CustomerGateway"
+                  - "AWS::EC2::Instance"
+                  - "AWS::EC2::InternetGateway"
+                  - "AWS::EC2::NetworkAcl"
+                  - "AWS::EC2::NetworkInterface"
+                  - "AWS::EC2::RouteTable"
+                  - "AWS::EC2::SecurityGroup"
+                  - "AWS::EC2::Subnet"
+                  - "AWS::EC2::Volume"
+                  - "AWS::EC2::VPC"
+                  - "AWS::EC2::VPNConnection"
+                  - "AWS::EC2::VPNGateway"
+                  - "AWS::ElasticLoadBalancing::LoadBalancer"
+                  - "AWS::ElasticLoadBalancingV2::LoadBalancer"
+                  - "AWS::RDS::DBInstance"
+                  - "AWS::RDS::DBSecurityGroup"
+                  - "AWS::RDS::DBSnapshot"
+                  - "AWS::RDS::DBSubnetGroup"
+                  - "AWS::RDS::EventSubscription"
+                  - "AWS::Redshift::Cluster"
+                  - "AWS::Redshift::ClusterSecurityGroup"
+                  - "AWS::Redshift::ClusterSnapshot"
+                  - "AWS::Redshift::ClusterSubnetGroup"
+                  - "AWS::S3::Bucket"
+            Source: 
+                Owner: "AWS"
+                SourceIdentifier: "REQUIRED_TAGS"
+            InputParameters: "{\\"tag1Key\\":\\"Application\\",\\"tag1Value\\":\\"Acuity,AzureDevOps,CRM,DREAM,Exchange,Global-API,GreatPlains,Infrastructure,LinkNet,MobileIron,PaloAlto,RedFox,ReportingServer,SGS,SecurityServer,SigueDotCom,SigueLink,SiguePay,SolarWinds,Soteica,Splunk,Citrix,SiguePayOut,PaymentGatewayAPI,CheckFree,SigueBridge,SiSigueDotCom\\"}"
+
+    ConfigConfigRule5:
+        Type: "AWS::Config::ConfigRule"
+        Properties:
+            ConfigRuleName: "root-account-mfa-enabled"
+            Description: "Checks whether the root user of your AWS account requires multi-factor authentication for console sign-in."
+            Source: 
+                Owner: "AWS"
+                SourceIdentifier: "ROOT_ACCOUNT_MFA_ENABLED"
+            MaximumExecutionFrequency: "TwentyFour_Hours"
+
+    ConfigConfigRule6:
+        Type: "AWS::Config::ConfigRule"
+        Properties:
+            ConfigRuleName: !Sub "securityhub-${ConfigConfigRule}-f4eaa2a1"
+            Description: "Checks whether AWS CloudTrail is enabled in your AWS account."
+            Scope: {}
+            Source: 
+                Owner: "AWS"
+                SourceIdentifier: "CLOUD_TRAIL_ENABLED"
+            InputParameters: "{}"
+            MaximumExecutionFrequency: "Twelve_Hours"
+
+    ConfigConfigRule7:
+        Type: "AWS::Config::ConfigRule"
+        Properties:
+            ConfigRuleName: "securityhub-codebuild-project-envvar-awscred-check-bed3910f"
+            Description: "Checks whether the project contains environment variables AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY."
+            Scope: 
+                ComplianceResourceTypes: 
+                  - "AWS::CodeBuild::Project"
+            Source: 
+                Owner: "AWS"
+                SourceIdentifier: "CODEBUILD_PROJECT_ENVVAR_AWSCRED_CHECK"
+            InputParameters: "{}"
+
+    ConfigConfigRule8:
+        Type: "AWS::Config::ConfigRule"
+        Properties:
+            ConfigRuleName: "securityhub-iam-root-access-key-check-t9asz"
+            Description: "Checks whether the root user access key is available."
+            Scope: {}
+            Source: 
+                Owner: "AWS"
+                SourceIdentifier: "IAM_ROOT_ACCESS_KEY_CHECK"
+            InputParameters: "{}"
+            MaximumExecutionFrequency: "Twelve_Hours"
+
+    ConfigConfigRule9:
+        Type: "AWS::Config::ConfigRule"
+        Properties:
+            ConfigRuleName: "securityhub-rds-instance-copy-tags-to-snapshots-enabled-ff4e6ad4"
+            Description: "This control checks whether RDS DB instances are configured to copy all tags to snapshots when the snapshots are created."
+            Scope: 
+                ComplianceResourceTypes: 
+                  - "AWS::RDS::DBInstance"
+            Source: 
+                Owner: "CUSTOM_LAMBDA"
+                SourceIdentifier: !Sub "arn:aws:lambda:${AWS::Region}:572901956981:function:SecurityHubConfigRule"
+                SourceDetails: 
+                  - 
+                    EventSource: "aws.config"
+                    MessageType: "ConfigurationItemChangeNotification"
+            InputParameters: "{}"
+
+    ConfigConfigRule10:
+        Type: "AWS::Config::ConfigRule"
+        Properties:
+            ConfigRuleName: "securityhub-rds-instance-deletion-protection-enabled-3df2c228"
+            Description: "Checks if an Amazon Relational Database Service (Amazon RDS) instance has deletion protection enabled."
+            Scope: {}
+            Source: 
+                Owner: "AWS"
+                SourceIdentifier: "RDS_INSTANCE_DELETION_PROTECTION_ENABLED"
+            InputParameters: "{\\"databaseEngines\\":\\"mariadb,mysql,oracle-ee,oracle-se2,oracle-se1,oracle-se,postgres,sqlserver-ee,sqlserver-se,sqlserver-ex,sqlserver-web\\"}"
+
+    ConfigConfigRule11:
+        Type: "AWS::Config::ConfigRule"
+        Properties:
+            ConfigRuleName: "securityhub-rds-instance-public-access-check-bf1ee267"
+            Description: "Check whether the Amazon Relational Database Service instances are not publicly accessible."
+            Scope: 
+                ComplianceResourceTypes: 
+                  - "AWS::RDS::DBInstance"
+            Source: 
+                Owner: "AWS"
+                SourceIdentifier: "RDS_INSTANCE_PUBLIC_ACCESS_CHECK"
+            InputParameters: "{}"
+
+    ConfigConfigRule12:
+        Type: "AWS::Config::ConfigRule"
+        Properties:
+            ConfigRuleName: "securityhub-rds-snapshot-encrypted-00634e52"
+            Description: "Checks whether Amazon Relational Database Service (Amazon RDS) DB snapshots are encrypted. The rule is NON_COMPLIANT, if Amazon RDS DB snapshots are not encrypted."
+            Scope: {}
+            Source: 
+                Owner: "AWS"
+                SourceIdentifier: "RDS_SNAPSHOT_ENCRYPTED"
+            InputParameters: "{}"
+
+    ConfigConfigRule13:
+        Type: "AWS::Config::ConfigRule"
+        Properties:
+            ConfigRuleName: "securityhub-rds-snapshots-public-prohibited-0a302401"
+            Description: "Checks if Amazon Relational Database Service (Amazon RDS) snapshots are public."
+            Scope: 
+                ComplianceResourceTypes: 
+                  - "AWS::RDS::DBSnapshot"
+                  - "AWS::RDS::DBClusterSnapshot"
+            Source: 
+                Owner: "AWS"
+                SourceIdentifier: "RDS_SNAPSHOTS_PUBLIC_PROHIBITED"
+            InputParameters: "{}"
+
+    ConfigConfigRule14:
+        Type: "AWS::Config::ConfigRule"
+        Properties:
+            ConfigRuleName: !Sub "securityhub-${ConfigConfigRule5}-adv8kb"
+            Description: "Checks whether users of your AWS account require a multi-factor authentication (MFA) device to sign in with root credentials."
+            Scope: {}
+            Source: 
+                Owner: "AWS"
+                SourceIdentifier: "ROOT_ACCOUNT_MFA_ENABLED"
+            InputParameters: "{}"
+            MaximumExecutionFrequency: "Twelve_Hours"
+
+    ConfigConfigRule15:
+        Type: "AWS::Config::ConfigRule"
+        Properties:
+            ConfigRuleName: "securityhub-vpc-flow-logs-enabled-ks7245"
+            Description: "Checks whether Amazon Virtual Private Cloud flow logs are found and enabled for Amazon VPC."
+            Scope: {}
+            Source: 
+                Owner: "AWS"
+                SourceIdentifier: "VPC_FLOW_LOGS_ENABLED"
+            InputParameters: "{\\"trafficType\\":\\"REJECT\\"}"
+            MaximumExecutionFrequency: "Twelve_Hours"
+
+    ConfigConfigRule16:
+        Type: "AWS::Config::ConfigRule"
+        Properties:
+            ConfigRuleName: "securityhub-vpc-network-acl-unused-check-6ad00537"
+            Description: "Checks if there are unused Network Access Control Lists (NACLs). The rule is NON_COMPLIANT if an NACL is not associated with a subnet."
+            Scope: {}
+            Source: 
+                Owner: "AWS"
+                SourceIdentifier: "VPC_NETWORK_ACL_UNUSED_CHECK"
+            InputParameters: "{}"
+
