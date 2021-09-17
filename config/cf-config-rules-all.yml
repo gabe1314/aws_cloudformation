@@ -180,7 +180,7 @@ Resources:
             Source: 
                 Owner: "AWS"
                 SourceIdentifier: "REQUIRED_TAGS"
-            InputParameters: "{\\"tag1Key\\":\\"Application\\",\\"tag1Value\\":\\"Acuity,AzureDevOps,CRM,DREAM,Exchange,Global-API,GreatPlains,Infrastructure,LinkNet,MobileIron,PaloAlto,RedFox,ReportingServer,SGS,SecurityServer,SigueDotCom,SigueLink,SiguePay,SolarWinds,Soteica,Splunk,Citrix,SiguePayOut,PaymentGatewayAPI,CheckFree,SigueBridge,SiSigueDotCom\\"}"
+            InputParameters: "{\\"tag1Key\\":\\"Application\\",\\"tag1Value\\":\\"AppName1,AppName2,AppName3\\"}"
 
     ConfigConfigRule13:
         Type: "AWS::Config::ConfigRule"
