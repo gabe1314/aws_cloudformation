@@ -1,0 +1,92 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Metadata:
+    Generator: "former2"
+Description: ""
+Resources:
+    IAMUser:
+        Type: "AWS::IAM::User"
+        Properties:
+            Path: "/"
+            UserName: "gabemac"
+            Groups: 
+              - !Ref IAMGroup2
+              - !Ref IAMGroup
+            ManagedPolicyArns: 
+              - "arn:aws:iam::aws:policy/job-function/Billing"
+              - "arn:aws:iam::aws:policy/AdministratorAccess"
+
+    IAMGroup:
+        Type: "AWS::IAM::Group"
+        Properties:
+            Path: "/"
+            GroupName: "gabe-ro-skx-gabe-test-bucket"
+            ManagedPolicyArns: 
+              - !Ref IAMManagedPolicy2
+
+    IAMGroup2:
+        Type: "AWS::IAM::Group"
+        Properties:
+            Path: "/"
+            GroupName: "gabe-rw-skx-gabe-test-bucket"
+            ManagedPolicyArns: 
+              - !Ref IAMManagedPolicy
+
+    IAMManagedPolicy:
+        Type: "AWS::IAM::ManagedPolicy"
+        Properties:
+            ManagedPolicyName: "gabe-rw"
+            Path: "/"
+            PolicyDocument: |
+                {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "VisualEditor0",
+                            "Effect": "Allow",
+                            "Action": [
+                                "s3:PutObject",
+                                "s3:GetObject",
+                                "s3:ListBucket",
+                                "s3:DeleteObject"
+                            ],
+                            "Resource": [
+                                "arn:aws:s3:::skx-gabe-test-bucket",
+                                "arn:aws:s3:::*/*"
+                            ]
+                        },
+                        {
+                            "Sid": "VisualEditor1",
+                            "Effect": "Allow",
+                            "Action": "s3:ListAllMyBuckets",
+                            "Resource": "*"
+                        }
+                    ]
+                }
+
+    IAMManagedPolicy2:
+        Type: "AWS::IAM::ManagedPolicy"
+        Properties:
+            ManagedPolicyName: "gabe-ro"
+            Path: "/"
+            PolicyDocument: |
+                {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "VisualEditor0",
+                            "Effect": "Allow",
+                            "Action": [
+                                "s3:GetObject",
+                                "s3:ListBucket"
+                            ],
+                            "Resource": "arn:aws:s3:::skx-gabe-test-bucket"
+                        },
+                        {
+                            "Sid": "VisualEditor1",
+                            "Effect": "Allow",
+                            "Action": "s3:ListAllMyBuckets",
+                            "Resource": "*"
+                        }
+                    ]
+                }
+
